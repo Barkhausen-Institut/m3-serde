@@ -33,6 +33,7 @@ pub fn expand_derive_serialize(
         let used = pretend::pretend_used(&cont, params.is_packed);
         quote! {
             impl #impl_generics #ident #ty_generics #where_clause {
+                #[inline(always)]
                 #vis fn serialize<__S>(__self: &#remote #ty_generics, __serializer: __S) -> #serde::__private::Result<__S::Ok, __S::Error>
                 where
                     __S: #serde::Serializer,
@@ -46,6 +47,7 @@ pub fn expand_derive_serialize(
         quote! {
             #[automatically_derived]
             impl #impl_generics #serde::Serialize for #ident #ty_generics #where_clause {
+                #[inline(always)]
                 fn serialize<__S>(&self, __serializer: __S) -> #serde::__private::Result<__S::Ok, __S::Error>
                 where
                     __S: #serde::Serializer,
@@ -723,6 +725,7 @@ fn serialize_adjacently_tagged_variant(
         }
 
         impl #wrapper_impl_generics _serde::Serialize for __AdjacentlyTagged #wrapper_ty_generics #where_clause {
+            #[inline(always)]
             fn serialize<__S>(&self, __serializer: __S) -> _serde::__private::Result<__S::Ok, __S::Error>
             where
                 __S: _serde::Serializer,
@@ -986,6 +989,7 @@ fn serialize_struct_variant_with_flatten<'a>(
                 }
 
                 impl #wrapper_impl_generics _serde::Serialize for __EnumFlatten #wrapper_ty_generics #where_clause {
+                    #[inline(always)]
                     fn serialize<__S>(&self, __serializer: __S) -> _serde::__private::Result<__S::Ok, __S::Error>
                     where
                         __S: _serde::Serializer,
@@ -1216,6 +1220,7 @@ fn wrap_serialize_with(
         }
 
         impl #wrapper_impl_generics _serde::Serialize for __SerializeWith #wrapper_ty_generics #where_clause {
+            #[inline(always)]
             fn serialize<__S>(&self, __s: __S) -> _serde::__private::Result<__S::Ok, __S::Error>
             where
                 __S: _serde::Serializer,
